@@ -6,26 +6,76 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>659</width>
-    <height>389</height>
+    <width>1063</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Nyuu</string>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
+  <property name="windowIcon">
+   <iconset resource="Resources.qrc">
+    <normaloff>:/App/Resources/NyuuLogo2.png</normaloff>:/App/Resources/NyuuLogo2.png</iconset>
+  </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonTextUnderIcon</enum>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <widget class="CRenderWidget" name="renderWidget" native="true"/>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>659</width>
+     <width>1063</width>
      <height>19</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFichier">
+    <property name="title">
+     <string>Fichier</string>
+    </property>
+    <addaction name="actionNouveau"/>
+    <addaction name="actionOuvrir"/>
+    <addaction name="actionSauvegarder"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuitter"/>
+   </widget>
+   <widget class="QMenu" name="menuProjet">
+    <property name="title">
+     <string>Projet</string>
+    </property>
+    <addaction name="actionD_finir_le_chemin_du_projet"/>
+    <addaction name="actionRecharger_les_objets_textures"/>
+   </widget>
+   <widget class="QMenu" name="menuExport">
+    <property name="title">
+     <string>Export</string>
+    </property>
+    <addaction name="actionG_n_rer_les_fichiers_client"/>
+    <addaction name="actionG_n_rer_les_fichiers_serveur"/>
+   </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>?</string>
+    </property>
+    <addaction name="actionA_propos"/>
+   </widget>
+   <addaction name="menuFichier"/>
+   <addaction name="menuProjet"/>
+   <addaction name="menuExport"/>
+   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="toolBar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -36,14 +86,235 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionNouveau"/>
+   <addaction name="actionOuvrir"/>
+   <addaction name="actionSauvegarder"/>
+   <addaction name="separator"/>
+   <addaction name="actionConfiguration_du_niveau"/>
+   <addaction name="actionAccrocher_la_grille"/>
+  </widget>
+  <widget class="QDockWidget" name="dock_Toolset">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_3">
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QTabWidget" name="tabInspector">
+       <property name="minimumSize">
+        <size>
+         <width>211</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="tabShape">
+        <enum>QTabWidget::Rounded</enum>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <property name="documentMode">
+        <bool>false</bool>
+       </property>
+       <property name="tabsClosable">
+        <bool>false</bool>
+       </property>
+       <widget class="QWidget" name="tab">
+        <attribute name="title">
+         <string>Création</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="0">
+          <widget class="QTreeWidget" name="treeWidget">
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="dragEnabled">
+            <bool>true</bool>
+           </property>
+           <column>
+            <property name="text">
+             <string>Nom</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Chemin</string>
+            </property>
+           </column>
+           <item>
+            <property name="text">
+             <string>Sprites statiques</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Nouveau sous-élément</string>
+             </property>
+            </item>
+           </item>
+           <item>
+            <property name="text">
+             <string>Sprites animés</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Nouveau sous-élément</string>
+             </property>
+            </item>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_2">
+        <attribute name="title">
+         <string>Propriétés</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_4">
+         <item row="0" column="0">
+          <widget class="QTableWidget" name="tableWidget">
+           <column>
+            <property name="text">
+             <string>Propriété</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Valeur</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <action name="actionNouveau">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Resources/Icons/ic_document_3.png</normaloff>:/Icons/Resources/Icons/ic_document_3.png</iconset>
+   </property>
    <property name="text">
     <string>Nouveau</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionOuvrir">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Resources/Icons/ic_folder_red.png</normaloff>:/Icons/Resources/Icons/ic_folder_red.png</iconset>
+   </property>
+   <property name="text">
+    <string>Ouvrir</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionSauvegarder">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Resources/Icons/ic_save.png</normaloff>:/Icons/Resources/Icons/ic_save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Sauvegarder</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionConfiguration_du_niveau">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Resources/Icons/ic_document_settings.png</normaloff>:/Icons/Resources/Icons/ic_document_settings.png</iconset>
+   </property>
+   <property name="text">
+    <string>Configuration du niveau</string>
+   </property>
+  </action>
+  <action name="actionQuitter">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Resources/Icons/ic_power.png</normaloff>:/Icons/Resources/Icons/ic_power.png</iconset>
+   </property>
+   <property name="text">
+    <string>Quitter</string>
+   </property>
+  </action>
+  <action name="actionD_finir_le_chemin_du_projet">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Resources/Icons/ic_drawer.png</normaloff>:/Icons/Resources/Icons/ic_drawer.png</iconset>
+   </property>
+   <property name="text">
+    <string>Définir le chemin du projet</string>
+   </property>
+  </action>
+  <action name="actionRecharger_les_objets_textures">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Resources/Icons/ic_refresh.png</normaloff>:/Icons/Resources/Icons/ic_refresh.png</iconset>
+   </property>
+   <property name="text">
+    <string>Recharger les objets/textures</string>
+   </property>
+  </action>
+  <action name="actionAccrocher_la_grille">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Resources/Icons/ic_grid.png</normaloff>:/Icons/Resources/Icons/ic_grid.png</iconset>
+   </property>
+   <property name="text">
+    <string>Accrocher à la grille</string>
+   </property>
+  </action>
+  <action name="actionG_n_rer_les_fichiers_client">
+   <property name="text">
+    <string>Générer les fichiers client</string>
+   </property>
+  </action>
+  <action name="actionG_n_rer_les_fichiers_serveur">
+   <property name="text">
+    <string>Générer les fichiers serveur</string>
+   </property>
+  </action>
+  <action name="actionA_propos">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Resources/Icons/ic_ghost_bwaah.png</normaloff>:/Icons/Resources/Icons/ic_ghost_bwaah.png</iconset>
+   </property>
+   <property name="text">
+    <string>A propos...</string>
    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <customwidgets>
+  <customwidget>
+   <class>CRenderWidget</class>
+   <extends>QWidget</extends>
+   <header>CRenderWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="Resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

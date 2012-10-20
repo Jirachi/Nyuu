@@ -112,5 +112,10 @@
         <file>Resources/Icons/ic_zoom_minus.png</file>
         <file>Resources/Icons/ic_zoom_one.png</file>
         <file>Resources/Icons/ic_zoom_plus.png</file>
+        <file>Resources/Icons/ic_grid.png</file>
+    </qresource>
+    <qresource prefix="/App">
+        <file>Resources/NyuuLogo.gif</file>
+        <file>Resources/NyuuLogo2.png</file>
     </qresource>
 </RCC>
