@@ -29,6 +29,12 @@ public:
     // Set entity angle
     virtual void setAngle(float angle);
 
+    // Returns the type of this entity
+    virtual EntityType getType() const { return ENTITY_TYPE_STATIC_GEOMETRY; }
+
+    // Returns the current RenderWidget item representation
+    virtual QGraphicsItem* getSceneItem() const { return mSceneItem; }
+
 protected:
     QString mTextureFile;
     QPixmap mTexturePixmap;

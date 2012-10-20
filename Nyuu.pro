@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     CScene.cpp \
     Globals.cpp \
     CStaticGeometryEntity.cpp \
-    Maths.cpp
+    Maths.cpp \
+    QGraphicsAnimatedSprite.cpp
 
 HEADERS  += mainwindow.h \
     CRenderWidget.h \
@@ -27,7 +28,8 @@ HEADERS  += mainwindow.h \
     CScene.h \
     Globals.h \
     CStaticGeometryEntity.h \
-    Maths.h
+    Maths.h \
+    QGraphicsAnimatedSprite.h
 
 FORMS    += mainwindow.ui \
     aboutdialog.ui

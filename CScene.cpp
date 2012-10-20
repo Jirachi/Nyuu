@@ -18,6 +18,8 @@ CStaticGeometryEntity* CScene::createStaticGeometry(const QString &texture)
     CStaticGeometryEntity* entity = new CStaticGeometryEntity(++mFreeEntityId, texture);
     entity->addToScene(Globals::getCurrentGraphicsScene());
 
+    mEntities.push_back(entity);
+
     return entity;
 }
 //-----------------------------------------------------
@@ -27,5 +29,18 @@ void CScene::addAllElementsToScene(QGraphicsScene *scene)
     {
         (*it)->addToScene(scene);
     }
+}
+//-----------------------------------------------------
+CEntity* CScene::getEntityFromGraphicsView(QGraphicsItem *element)
+{
+    for (QList<CEntity*>::iterator it = mEntities.begin(); it != mEntities.end(); ++it)
+    {
+        if ((*it)->getSceneItem() == element)
+        {
+            return (*it);
+        }
+    }
+
+    return 0;
 }
 //-----------------------------------------------------

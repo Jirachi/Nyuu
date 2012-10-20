@@ -2,6 +2,7 @@
 #define CRENDERWIDGET_H
 
 #include <QGraphicsView>
+#include <QList>
 
 class CRenderWidget : public QGraphicsView
 {
@@ -10,6 +11,13 @@ public:
     explicit CRenderWidget(QWidget *parent = 0);
     ~CRenderWidget();
     
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+
+    // Remove all the selection rectangles
+    void clearSelection();
+
 signals:
     
 public slots:
@@ -17,6 +25,12 @@ public slots:
 
 protected:
     QGraphicsScene mScene;
+
+    QList<QGraphicsItem*> mSelectedItems;
+    QList<QGraphicsItem*> mSelectionRects;
+
+    bool mIsLeftMouseDown;
+    QPoint mMouseDownPosition;
     
 };
 
