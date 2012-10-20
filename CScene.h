@@ -2,6 +2,7 @@
 #define CSCENE_H
 
 #include <QList>
+#include <QGraphicsScene>
 
 class CEntity;
 class CStaticGeometryEntity;
@@ -16,6 +17,9 @@ public:
 
     // Returns a list of all the scene's entities
     QList<CEntity*>& getEntities() const;
+
+    // Add all the entities to the specified scene
+    void addAllElementsToScene(QGraphicsScene* scene);
 
     // Create a Static Geometry entity
     CStaticGeometryEntity* createStaticGeometry(const QString& texture);

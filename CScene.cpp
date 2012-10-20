@@ -1,4 +1,5 @@
 #include "CScene.h"
+#include "CEntity.h"
 #include "CStaticGeometryEntity.h"
 #include "Globals.h"
 
@@ -18,5 +19,13 @@ CStaticGeometryEntity* CScene::createStaticGeometry(const QString &texture)
     entity->addToScene(Globals::getCurrentGraphicsScene());
 
     return entity;
+}
+//-----------------------------------------------------
+void CScene::addAllElementsToScene(QGraphicsScene *scene)
+{
+    for (QList<CEntity*>::iterator it = mEntities.begin(); it != mEntities.end(); ++it)
+    {
+        (*it)->addToScene(scene);
+    }
 }
 //-----------------------------------------------------

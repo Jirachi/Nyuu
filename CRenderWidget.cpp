@@ -1,5 +1,6 @@
 #include "CRenderWidget.h"
 #include "Globals.h"
+#include "CScene.h"
 #include <QGraphicsTextItem>
 
 //---------------------------------------------------------------------------
@@ -25,7 +26,7 @@ void CRenderWidget::notifySceneChanged()
         // We rebuild the scene out of the new elements.
         CScene* scene = Globals::getCurrentScene();
 
-
+        scene->addAllElementsToScene(&mScene);
     }
     else
     {

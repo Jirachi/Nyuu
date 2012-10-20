@@ -3,7 +3,9 @@
 #include "ui_mainwindow.h"
 
 #include "CScene.h"
+#include "CStaticGeometryEntity.h"
 #include "Globals.h"
+#include "Maths.h"
 
 //-----------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
@@ -35,6 +37,11 @@ void MainWindow::onClick_Nouveau()
 {
     CScene* scene = new CScene();
     Globals::setCurrentScene(scene);
-    scene->createStaticGeometry("C:\\Users\\Guigui\\Downloads\\test.jpg");
+    ui->renderWidget->notifySceneChanged();
+
+    scene->createStaticGeometry("D:\\Projets\\Jirachi\\test-rsrc\\tree_0_med.png")->setPosition(Vector2D(50, 50));
+    scene->createStaticGeometry("D:\\Projets\\Jirachi\\test-rsrc\\tree_0_med.png")->setPosition(Vector2D(150, 150));
+    scene->createStaticGeometry("D:\\Projets\\Jirachi\\test-rsrc\\turret.svg")->setPosition(Vector2D(350, 150));
+
 }
 //-----------------------------------------------------
