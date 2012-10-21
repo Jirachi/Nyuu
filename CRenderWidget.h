@@ -14,6 +14,7 @@ public:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
+    void contextMenuEvent(QContextMenuEvent *event);
 
     // Remove all the selection rectangles
     void clearSelection();

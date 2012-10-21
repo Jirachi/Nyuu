@@ -5,6 +5,7 @@
 #include <QGraphicsTextItem>
 #include <QMouseEvent>
 #include <QMessageBox>
+#include <QMenu>
 
 //---------------------------------------------------------------------------
 CRenderWidget::CRenderWidget(QWidget *parent) :
@@ -112,4 +113,8 @@ void CRenderWidget::clearSelection()
     mSelectedItems.clear();
 }
 //---------------------------------------------------------------------------
-
+void CRenderWidget::contextMenuEvent(QContextMenuEvent *event)
+{
+    //QMenu* ctxMenu = new QMenu(this);
+}
+//---------------------------------------------------------------------------
