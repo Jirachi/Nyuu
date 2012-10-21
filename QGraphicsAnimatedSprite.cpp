@@ -6,7 +6,7 @@
 QGraphicsAnimatedSprite::QGraphicsAnimatedSprite(QImage &spritesheet) : mSpriteSheet(spritesheet),
     mCurrentColumn(0), mCurrentLine(0), mReverseFrame(false)
 {
-    startTimer(100);
+    mTimerId = startTimer(100);
 }
 //-----------------------------------------------------------
 QGraphicsAnimatedSprite::~QGraphicsAnimatedSprite()
@@ -24,7 +24,7 @@ void QGraphicsAnimatedSprite::paint(QPainter *painter, const QStyleOptionGraphic
 //-----------------------------------------------------------
 QRectF QGraphicsAnimatedSprite::boundingRect() const
 {
-    return QRectF(0, 0, mElementWidth, mElementWidth);
+    return QRectF(0, 0, mElementWidth, mElementHeight);
 }
 //-----------------------------------------------------------
 void QGraphicsAnimatedSprite::timerEvent(QTimerEvent *evt)
@@ -103,5 +103,11 @@ void QGraphicsAnimatedSprite::setElementSize(int width, int height)
 {
     mElementWidth = width;
     mElementHeight = height;
+}
+//-----------------------------------------------------------
+void QGraphicsAnimatedSprite::setSpeed(int timeMs)
+{
+    killTimer(mTimerId);
+    mTimerId = startTimer(timeMs);
 }
 //-----------------------------------------------------------

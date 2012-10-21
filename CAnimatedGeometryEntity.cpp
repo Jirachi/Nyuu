@@ -18,6 +18,7 @@ CAnimatedGeometryEntity::CAnimatedGeometryEntity(long id, CResource* resource) :
     mSprite->setSheetSize(rsrc_anim["lines"].toInt(), rsrc_anim["columns"].toInt());
     mSprite->setElementSize(rsrc_anim["width"].toInt(), rsrc_anim["height"].toInt());
     mSprite->setFrameReversion(rsrc_anim["reverse"].toBool());
+    mSprite->setSpeed(rsrc_anim["speed"].toInt());
 
     _loadAnimations();
 

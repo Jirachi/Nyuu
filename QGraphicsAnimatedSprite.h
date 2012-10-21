@@ -35,8 +35,13 @@ public:
     // Set the animation frames to loop
     void setAnimationFrames(int start_col, int start_line, int end_col, int end_line);
 
+    // Set time between each frame (100 = 100ms between each frame)
+    void setSpeed(int timeMs);
+
 protected:
     QImage mSpriteSheet;
+    int mTimerId;
+
     int mCurrentColumn;
     int mCurrentLine;
 
