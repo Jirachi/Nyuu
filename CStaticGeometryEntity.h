@@ -5,20 +5,21 @@
 #include "CScene.h"
 #include <QGraphicsPixmapItem>
 
+class CResource;
 class CStaticGeometryEntity : public CEntity
 {
 protected:
     friend class CScene;
 
     // ctor
-    CStaticGeometryEntity(long id, QString texture);
+    CStaticGeometryEntity(long id, CResource* resource);
 
     // dtor
     ~CStaticGeometryEntity();
 
 public:
-    // Returns the texture file used by this entity
-    QString getTexture() const;
+    // Returns the resource used by this entity
+    CResource* getResource() const;
 
     // Apply the entity to the current scene
     virtual void addToScene(QGraphicsScene* scene);
@@ -36,7 +37,7 @@ public:
     virtual QGraphicsItem* getSceneItem() const { return mSceneItem; }
 
 protected:
-    QString mTextureFile;
+    CResource* mResource;
     QPixmap mTexturePixmap;
     QGraphicsPixmapItem* mSceneItem;
 };

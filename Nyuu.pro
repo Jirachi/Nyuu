@@ -26,7 +26,10 @@ SOURCES += main.cpp\
     QJson/parserrunnable.cpp \
     QJson/parser.cpp \
     QJson/json_scanner.cpp \
-    QJson/json_parser.cc
+    QJson/json_parser.cc \
+    CResource.cpp \
+    CResourceManager.cpp \
+    CAnimatedGeometryEntity.cpp
 
 HEADERS  += mainwindow.h \
     CRenderWidget.h \
@@ -50,7 +53,9 @@ HEADERS  += mainwindow.h \
     QJson/parser.h \
     QJson/location.hh \
     QJson/json_scanner.h \
-    QJson/json_parser.hh
+    QJson/json_parser.hh \
+    CResource.h \
+    CResourceManager.h
 
 FORMS    += mainwindow.ui \
     aboutdialog.ui

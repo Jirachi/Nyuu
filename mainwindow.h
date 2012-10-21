@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTreeWidgetItem>
 
 namespace Ui {
 class MainWindow;
@@ -18,6 +19,8 @@ public:
 private slots:
     void onClick_APropos();
     void onClick_Nouveau();
+    void onClick_SetProjectPath();
+    void onDoubleClick_EntityTree(QTreeWidgetItem* item, int column);
 
 private:
     Ui::MainWindow *ui;

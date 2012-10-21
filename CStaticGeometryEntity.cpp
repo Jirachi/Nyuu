@@ -1,11 +1,16 @@
 #include "CStaticGeometryEntity.h"
 #include <QGraphicsPixmapItem>
+#include "CResource.h"
+#include "Globals.h"
+#include <QDebug>
 
 //----------------------------------------------------
-CStaticGeometryEntity::CStaticGeometryEntity(long id, QString texture) :
-    CEntity(id), mTextureFile(texture), mTexturePixmap(texture), mSceneItem(0)
+CStaticGeometryEntity::CStaticGeometryEntity(long id, CResource* resource) :
+    CEntity(id), mResource(resource), mSceneItem(0)
 {
-
+    QString filePath = resource->getProperty("file").toString();
+    qDebug() << "File path: " << filePath;
+    mTexturePixmap = QPixmap(Globals::getProjectPath() + "/" + filePath);
 }
 //----------------------------------------------------
 CStaticGeometryEntity::~CStaticGeometryEntity()

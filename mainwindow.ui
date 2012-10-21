@@ -127,7 +127,7 @@
         </attribute>
         <layout class="QGridLayout" name="gridLayout_3">
          <item row="0" column="0">
-          <widget class="QTreeWidget" name="treeWidget">
+          <widget class="QTreeWidget" name="tree_EntitiesAvailable">
            <property name="editTriggers">
             <set>QAbstractItemView::NoEditTriggers</set>
            </property>

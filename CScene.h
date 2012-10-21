@@ -6,6 +6,8 @@
 
 class CEntity;
 class CStaticGeometryEntity;
+class CAnimatedGeometryEntity;
+class CResource;
 class CScene
 {
 public:
@@ -22,7 +24,10 @@ public:
     void addAllElementsToScene(QGraphicsScene* scene);
 
     // Create a Static Geometry entity
-    CStaticGeometryEntity* createStaticGeometry(const QString& texture);
+    CStaticGeometryEntity* createStaticGeometry(CResource* resource);
+
+    // Create an Animated Geometry entity
+    CAnimatedGeometryEntity* createAnimatedGeometry(CResource* resource);
 
     // Returns an entity whom QGraphicsItem representation is the specified pointer
     CEntity* getEntityFromGraphicsView(QGraphicsItem* element);

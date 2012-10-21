@@ -3,22 +3,23 @@
 
 #include "CEntity.h"
 #include "CScene.h"
-#include <QGraphicsPixmapItem>
+#include "QGraphicsAnimatedSprite.h"
 
+class CResource;
 class CAnimatedGeometryEntity : public CEntity
 {
 protected:
     friend class CScene;
 
     // ctor
-    CStaticGeometryEntity(long id, QString texture);
+    CAnimatedGeometryEntity(long id, CResource* resource);
 
     // dtor
-    ~CStaticGeometryEntity();
+    ~CAnimatedGeometryEntity();
 
 public:
-    // Returns the texture file used by this entity
-    QString getTexture() const;
+    // Returns the resource used by this entity
+    CResource* getResource() const;
 
     // Apply the entity to the current scene
     virtual void addToScene(QGraphicsScene* scene);
@@ -30,15 +31,14 @@ public:
     virtual void setAngle(float angle);
 
     // Returns the type of this entity
-    virtual EntityType getType() const { return ENTITY_TYPE_STATIC_GEOMETRY; }
+    virtual EntityType getType() const { return ENTITY_TYPE_ANIMATED_GEOMETRY; }
 
     // Returns the current RenderWidget item representation
-    virtual QGraphicsItem* getSceneItem() const { return mSceneItem; }
+    virtual QGraphicsItem* getSceneItem() const { return mSprite; }
 
 protected:
-    QString mTextureFile;
-    QPixmap mTexturePixmap;
-    QGraphicsPixmapItem* mSceneItem;
+    CResource* mResource;
+    QGraphicsAnimatedSprite* mSprite;
 };
 
 #endif // CANIMATEDGEOMETRYENTITY_H

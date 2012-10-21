@@ -1,6 +1,7 @@
 #include "CScene.h"
 #include "CEntity.h"
 #include "CStaticGeometryEntity.h"
+#include "CAnimatedGeometryEntity.h"
 #include "Globals.h"
 
 //-----------------------------------------------------
@@ -13,9 +14,19 @@ CScene::~CScene()
 
 }
 //-----------------------------------------------------
-CStaticGeometryEntity* CScene::createStaticGeometry(const QString &texture)
+CStaticGeometryEntity* CScene::createStaticGeometry(CResource* resource)
 {
-    CStaticGeometryEntity* entity = new CStaticGeometryEntity(++mFreeEntityId, texture);
+    CStaticGeometryEntity* entity = new CStaticGeometryEntity(++mFreeEntityId, resource);
+    entity->addToScene(Globals::getCurrentGraphicsScene());
+
+    mEntities.push_back(entity);
+
+    return entity;
+}
+//-----------------------------------------------------
+CAnimatedGeometryEntity* CScene::createAnimatedGeometry(CResource* resource)
+{
+    CAnimatedGeometryEntity* entity = new CAnimatedGeometryEntity(++mFreeEntityId, resource);
     entity->addToScene(Globals::getCurrentGraphicsScene());
 
     mEntities.push_back(entity);
