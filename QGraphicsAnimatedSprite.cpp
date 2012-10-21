@@ -4,7 +4,7 @@
 
 //-----------------------------------------------------------
 QGraphicsAnimatedSprite::QGraphicsAnimatedSprite(QImage &spritesheet) : mSpriteSheet(spritesheet),
-    mCurrentFrame(0), mReverseFrame(false)
+    mCurrentColumn(0), mCurrentLine(0), mReverseFrame(false)
 {
     startTimer(100);
 }
@@ -18,31 +18,90 @@ void QGraphicsAnimatedSprite::paint(QPainter *painter, const QStyleOptionGraphic
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    QRect sr = QRect(mCurrentFrame * 56, 0, 56, 80);
+    QRect sr = QRect(mCurrentColumn * mElementWidth, mCurrentLine * mElementHeight, mElementWidth, mElementHeight);
     painter->drawImage(QPoint(0,0), mSpriteSheet, sr, Qt::AutoColor);
 }
 //-----------------------------------------------------------
 QRectF QGraphicsAnimatedSprite::boundingRect() const
 {
-    return QRectF(0, 0, 56, 80);
+    return QRectF(0, 0, mElementWidth, mElementWidth);
 }
 //-----------------------------------------------------------
 void QGraphicsAnimatedSprite::timerEvent(QTimerEvent *evt)
 {
-    if (mCurrentFrame == 2)
+    // Check if we are at the end or at the beginning of the animation
+    if (mCurrentColumn == mAnimationEndCol && mCurrentLine == mAnimationEndLine)
     {
-        mReverseFrame = true;
+        if (mReverseFrameEnabled)
+        {
+            mReverseFrame = true;
+        }
+        else
+        {
+            mCurrentColumn = mAnimationStartCol;
+            mCurrentLine = mAnimationStartLine;
+        }
     }
-    else if (mCurrentFrame == 0)
+    else if (mCurrentColumn == mAnimationStartCol && mCurrentLine == mAnimationStartLine)
     {
-        mReverseFrame = false;
+        if (mReverseFrameEnabled)
+        {
+            mReverseFrame = false;
+        }
     }
 
-    if (mReverseFrame)
-        mCurrentFrame--;
-    else
-        mCurrentFrame++;
+    // Progress through the frames
+    if (!mReverseFrame) // Progress forward
+    {
+        if (mCurrentColumn == mSheetColumns-1)
+        {
+            mCurrentLine++;
+            mCurrentColumn = 0;
+        }
+        else
+        {
+            mCurrentColumn++;
+        }
+    }
+    else // Progress backwards
+    {
+        if (mCurrentColumn == 0)
+        {
+            mCurrentLine--;
+            mCurrentColumn = mSheetColumns-1;
+        }
+        else
+        {
+            mCurrentColumn--;
+        }
+    }
 
+    // Force redraw
     this->update();
+}
+//-----------------------------------------------------------
+void QGraphicsAnimatedSprite::setAnimationFrames(int start_col, int start_line, int end_col, int end_line)
+{
+    mAnimationStartCol = start_col;
+    mAnimationStartLine = start_line;
+    mAnimationEndCol = end_col;
+    mAnimationEndLine = end_line;
+}
+//-----------------------------------------------------------
+void QGraphicsAnimatedSprite::setFrameReversion(bool reverse)
+{
+    mReverseFrameEnabled = reverse;
+}
+//-----------------------------------------------------------
+void QGraphicsAnimatedSprite::setSheetSize(int lines, int columns)
+{
+    mSheetLines = lines;
+    mSheetColumns = columns;
+}
+//-----------------------------------------------------------
+void QGraphicsAnimatedSprite::setElementSize(int width, int height)
+{
+    mElementWidth = width;
+    mElementHeight = height;
 }
 //-----------------------------------------------------------

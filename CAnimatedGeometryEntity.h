@@ -5,6 +5,15 @@
 #include "CScene.h"
 #include "QGraphicsAnimatedSprite.h"
 
+struct Animation
+{
+    int start_line;
+    int start_col;
+    int end_line;
+    int end_col;
+    QString name;
+};
+
 class CResource;
 class CAnimatedGeometryEntity : public CEntity
 {
@@ -36,9 +45,16 @@ public:
     // Returns the current RenderWidget item representation
     virtual QGraphicsItem* getSceneItem() const { return mSprite; }
 
+    // Play the specified animation name
+    void playAnimation(const QString& name);
+
+protected:
+    void _loadAnimations();
+
 protected:
     CResource* mResource;
     QGraphicsAnimatedSprite* mSprite;
+    QMap<QString, Animation> mAnimations;
 };
 
 #endif // CANIMATEDGEOMETRYENTITY_H
