@@ -1,4 +1,5 @@
 #include "Maths.h"
+#include <stdlib.h>
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor

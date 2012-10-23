@@ -5,6 +5,7 @@
 #include <QTreeWidgetItem>
 
 class QGraphicsItem;
+class QTableWidgetItem;
 
 namespace Ui {
 class MainWindow;
