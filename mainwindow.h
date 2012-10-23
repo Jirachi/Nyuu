@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QTreeWidgetItem>
 
+class QGraphicsItem;
+
 namespace Ui {
 class MainWindow;
 }
@@ -21,6 +23,9 @@ private slots:
     void onClick_Nouveau();
     void onClick_SetProjectPath();
     void onDoubleClick_EntityTree(QTreeWidgetItem* item, int column);
+    void onSelect_RenderItem(QGraphicsItem* item);
+    void onClear_RenderSelection();
+    void onChange_Property(QTableWidgetItem* item);
 
 private:
     Ui::MainWindow *ui;

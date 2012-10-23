@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <QVariant>
 
+const QString CAnimatedGeometryEntity::PROP_KEY_ANIMATION_NAME = "anim_name";
+
 //----------------------------------------------------
 CAnimatedGeometryEntity::CAnimatedGeometryEntity(long id, CResource* resource) :
     CEntity(id), mResource(resource)
@@ -54,6 +56,7 @@ void CAnimatedGeometryEntity::setPosition(const Vector2D &pos)
 //-----------------------------------------------------
 void CAnimatedGeometryEntity::_loadAnimations()
 {
+    // Read the "anims" array from resource file
     QVariantMap rsrc_anim = mResource->getProperty("anim").toMap();
     QVariantList anims = rsrc_anim["anims"].toList();
 
@@ -83,5 +86,17 @@ QVariantMap CAnimatedGeometryEntity::getProperties()
     QVariantMap map = CEntity::getProperties();
 
     return map;
+}
+//-----------------------------------------------------
+bool CAnimatedGeometryEntity::setProperty(const QString &key, const QVariant &value)
+{
+    if (key == PROP_KEY_ANIMATION_NAME)
+    {
+        playAnimation(value.toString());
+        return true;
+    }
+
+    // Fall back on parent class implementation
+    return CEntity::setProperty(key,value);
 }
 //-----------------------------------------------------

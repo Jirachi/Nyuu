@@ -20,7 +20,12 @@ public:
     void clearSelection();
 
 signals:
-    
+    // Signal sent when an item is picked in the render view
+    void itemSelected(QGraphicsItem* item);
+
+    // Signal sent when selection is cleared
+    void selectionCleared();
+
 public slots:
     void notifySceneChanged();
 

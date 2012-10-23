@@ -62,6 +62,8 @@ void CRenderWidget::mousePressEvent(QMouseEvent *event)
         {
             mSelectedItems.push_back(item);
             mSelectionRects.push_back(mScene.addRect(item->pos().x(), item->pos().y(), item->boundingRect().width(), item->boundingRect().height(), dashedPen));
+
+            emit itemSelected(item);
         }
     }
 }
@@ -111,6 +113,8 @@ void CRenderWidget::clearSelection()
 
     mSelectionRects.clear();
     mSelectedItems.clear();
+
+    emit selectionCleared();
 }
 //---------------------------------------------------------------------------
 void CRenderWidget::contextMenuEvent(QContextMenuEvent *event)

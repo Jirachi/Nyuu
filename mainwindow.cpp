@@ -6,6 +6,7 @@
 #include <QDirIterator>
 #include <QDebug>
 #include <QMessageBox>
+#include <QVariantMap>
 
 #include "CScene.h"
 #include "CStaticGeometryEntity.h"
@@ -22,11 +23,16 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // Connect all actions from UI
     connect(ui->actionA_propos, SIGNAL(triggered()), this, SLOT(onClick_APropos()));
     connect(ui->actionNouveau, SIGNAL(triggered()), this, SLOT(onClick_Nouveau()));
     connect(ui->actionD_finir_le_chemin_du_projet, SIGNAL(triggered()), this, SLOT(onClick_SetProjectPath()));
 
     connect(ui->tree_EntitiesAvailable, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(onDoubleClick_EntityTree(QTreeWidgetItem*,int)));
+    connect(ui->tableProperties, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(onChange_Property(QTableWidgetItem*)));
+
+    connect(ui->renderWidget, SIGNAL(itemSelected(QGraphicsItem*)), this, SLOT(onSelect_RenderItem(QGraphicsItem*)));
+    connect(ui->renderWidget, SIGNAL(selectionCleared()), this, SLOT(onClear_RenderSelection()));
 }
 //-----------------------------------------------------
 MainWindow::~MainWindow()
@@ -46,6 +52,7 @@ void MainWindow::onClick_APropos()
 //-----------------------------------------------------
 void MainWindow::onClick_Nouveau()
 {
+    // Create a new scene and use it as current
     CScene* scene = new CScene();
     Globals::setCurrentScene(scene);
     ui->renderWidget->notifySceneChanged();
@@ -117,6 +124,53 @@ void MainWindow::onDoubleClick_EntityTree(QTreeWidgetItem* item, int column)
     {
         QMessageBox::critical(this, "Erreur de ressource", "Le type n'est pas renseigné ou invalide (" + resource->getProperty("type").toString() + ")");
     }
+
+}
+//-----------------------------------------------------
+void MainWindow::onClear_RenderSelection()
+{
+    // Disable the right panel
+    ui->tab_2->setEnabled(false);
+}
+//-----------------------------------------------------
+void MainWindow::onSelect_RenderItem(QGraphicsItem *item)
+{
+    if (!item)
+    {
+        onClear_RenderSelection();
+        return;
+    }
+
+    // Enable the tab panel
+    ui->tab_2->setEnabled(true);
+
+    // Read properties and fill in the table
+    ui->tableProperties->clearContents();
+
+    // We retrieve the entity out of the
+    CEntity* entity = Globals::getCurrentScene()->getEntityFromGraphicsView(item);
+
+    QVariantMap properties = entity->getProperties();
+    QList<QString> keys = properties.keys();
+    ui->tableProperties->setRowCount(keys.size());
+
+    int i = 0;
+    for (QList<QString>::iterator it = keys.begin(); it != keys.end(); ++it)
+    {
+        QTableWidgetItem* propName = new QTableWidgetItem(*it);
+        QTableWidgetItem* propValue = new QTableWidgetItem(properties[(*it)].toString());
+
+        propName->setFlags(Qt::ItemIsEnabled);
+
+        ui->tableProperties->setItem(i, 0, propName);
+        ui->tableProperties->setItem(i, 1, propValue);
+        i++;
+    }
+}
+//-----------------------------------------------------
+void MainWindow::onChange_Property(QTableWidgetItem *item)
+{
+    QString propName = ui->tableProperties->item(item->row(), 0)->text();
 
 }
 //-----------------------------------------------------

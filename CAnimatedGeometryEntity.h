@@ -51,6 +51,15 @@ public:
     // Returns the properties available for this entity
     virtual QVariantMap getProperties();
 
+    // Defines a property for this entity
+    // Returns if the property has been successfully set
+    virtual bool setProperty(const QString& key, const QVariant& value);
+
+    ///////////////////////////////////
+    // Properties key names
+    static const QString PROP_KEY_ANIMATION_NAME;
+    ///////////////////////////////////
+
 protected:
     void _loadAnimations();
 
