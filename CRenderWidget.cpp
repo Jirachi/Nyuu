@@ -115,6 +115,7 @@ void CRenderWidget::clearSelection()
 //---------------------------------------------------------------------------
 void CRenderWidget::contextMenuEvent(QContextMenuEvent *event)
 {
+    Q_UNUSED(event);
     //QMenu* ctxMenu = new QMenu(this);
 }
 //---------------------------------------------------------------------------

@@ -3,6 +3,7 @@
 
 #include "Maths.h"
 #include <QGraphicsScene>
+#include <QVariantMap>
 
 enum EntityType
 {
@@ -22,6 +23,12 @@ protected:
     virtual ~CEntity();
 
 public:
+    // Set Entity reference name (optional)
+    void setReferenceName(const QString& name) { mReferenceName = name; }
+
+    // Return Entity reference name (can be empty)
+    QString getReferenceName() const { return mReferenceName; }
+
     // Set Entity Position
     virtual void setPosition(const Vector2D& pos);
 
@@ -43,10 +50,14 @@ public:
     // Returns the current RenderWidget item representation
     virtual QGraphicsItem* getSceneItem() const { return 0; }
 
+    // Returns the properties available for this entity
+    virtual QVariantMap getProperties();
+
 protected:
     long mEntityId;
     Vector2D mPosition;
     float mAngle;
+    QString mReferenceName;
 };
 
 #endif // CENTITY_H

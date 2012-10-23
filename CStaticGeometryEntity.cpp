@@ -45,3 +45,10 @@ void CStaticGeometryEntity::setPosition(const Vector2D &pos)
     mSceneItem->setPos(pos.x, pos.y);
 }
 //-----------------------------------------------------
+QVariantMap CStaticGeometryEntity::getProperties()
+{
+    QVariantMap map = CEntity::getProperties();
+
+    return map;
+}
+//-----------------------------------------------------

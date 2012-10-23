@@ -27,3 +27,15 @@ void CEntity::setPosition(const Vector2D &pos)
     mPosition = pos;
 }
 //-----------------------------------------------------
+QVariantMap CEntity::getProperties()
+{
+    QVariantMap map;
+
+    // General properties for all entities
+    map.insert("ref_name", mReferenceName);
+    map.insert("pos_x", mPosition.x);
+    map.insert("pos_y", mPosition.y);
+
+    return map;
+}
+//-----------------------------------------------------

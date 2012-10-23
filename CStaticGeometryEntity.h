@@ -36,6 +36,9 @@ public:
     // Returns the current RenderWidget item representation
     virtual QGraphicsItem* getSceneItem() const { return mSceneItem; }
 
+    // Returns the properties available for this entity
+    virtual QVariantMap getProperties();
+
 protected:
     CResource* mResource;
     QPixmap mTexturePixmap;

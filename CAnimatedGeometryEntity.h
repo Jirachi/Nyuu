@@ -48,6 +48,9 @@ public:
     // Play the specified animation name
     void playAnimation(const QString& name);
 
+    // Returns the properties available for this entity
+    virtual QVariantMap getProperties();
+
 protected:
     void _loadAnimations();
 

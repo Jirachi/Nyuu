@@ -78,3 +78,10 @@ void CAnimatedGeometryEntity::playAnimation(const QString &name)
     mSprite->setAnimationFrames(anim.start_col, anim.start_line, anim.end_col, anim.end_line);
 }
 //-----------------------------------------------------
+QVariantMap CAnimatedGeometryEntity::getProperties()
+{
+    QVariantMap map = CEntity::getProperties();
+
+    return map;
+}
+//-----------------------------------------------------

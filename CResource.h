@@ -4,13 +4,6 @@
 #include <QString>
 #include <QVariant>
 
-enum ResourceType
-{
-    RESOURCE_SPRITE,
-    RESOURCE_MUSIC,
-    RESOURCE_SOUNDFX
-};
-
 class CResource
 {
 public:
@@ -22,6 +15,9 @@ public:
 
     // Return a resource property
     QVariant& getProperty(const QString& key);
+
+    // Return all the properties
+    QVariantMap& getProperties();
 
     // Read the values from the resource file
     void load();

@@ -54,3 +54,8 @@ QVariant& CResource::getProperty(const QString &key)
     return mProperties[key];
 }
 //-------------------------------------------------
+QVariantMap& CResource::getProperties()
+{
+    return mProperties;
+}
+//-------------------------------------------------

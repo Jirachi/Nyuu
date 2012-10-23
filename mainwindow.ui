@@ -113,7 +113,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <property name="documentMode">
         <bool>false</bool>
@@ -173,8 +173,8 @@
          <string>Propriétés</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_4">
-         <item row="0" column="0">
-          <widget class="QTableWidget" name="tableWidget">
+         <item row="1" column="0">
+          <widget class="QTableWidget" name="tableProperties">
            <column>
             <property name="text">
              <string>Propriété</string>
@@ -185,6 +185,17 @@
              <string>Valeur</string>
             </property>
            </column>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="btnReloadResource">
+           <property name="text">
+            <string>Recharger le fichier resource associé</string>
+           </property>
+           <property name="icon">
+            <iconset resource="Resources.qrc">
+             <normaloff>:/Icons/Resources/Icons/ic_refresh.png</normaloff>:/Icons/Resources/Icons/ic_refresh.png</iconset>
+           </property>
           </widget>
          </item>
         </layout>
@@ -285,11 +296,19 @@
    </property>
   </action>
   <action name="actionG_n_rer_les_fichiers_client">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Resources/Icons/ic_folder_white.png</normaloff>:/Icons/Resources/Icons/ic_folder_white.png</iconset>
+   </property>
    <property name="text">
     <string>Générer les fichiers client</string>
    </property>
   </action>
   <action name="actionG_n_rer_les_fichiers_serveur">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Resources/Icons/ic_folder_network.png</normaloff>:/Icons/Resources/Icons/ic_folder_network.png</iconset>
+   </property>
    <property name="text">
     <string>Générer les fichiers serveur</string>
    </property>

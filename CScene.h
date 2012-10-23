@@ -32,6 +32,9 @@ public:
     // Returns an entity whom QGraphicsItem representation is the specified pointer
     CEntity* getEntityFromGraphicsView(QGraphicsItem* element);
 
+    // Save the scene
+    void save();
+
 protected:
     QList<CEntity*> mEntities;
     long mFreeEntityId;

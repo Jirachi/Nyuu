@@ -76,9 +76,11 @@ void MainWindow::onClick_SetProjectPath()
         strs.push_back(iterator.fileName());
         strs.push_back(iterator.filePath().right(iterator.filePath().size() - directory.size() - 1));
 
+        // We filter only .rs files
         if ((!iterator.fileInfo().isDir() && !iterator.fileName().endsWith(".rs")) || iterator.fileName().startsWith("."))
             continue;
 
+        // Folders are added as topLevelItems, files are children of them
         if (!iterator.fileInfo().isDir())
         {
             QString topElement = strs.at(1).left(strs.at(1).indexOf("/"));
@@ -93,12 +95,16 @@ void MainWindow::onClick_SetProjectPath()
 //-----------------------------------------------------
 void MainWindow::onDoubleClick_EntityTree(QTreeWidgetItem* item, int column)
 {
+    Q_UNUSED(column);
+
+    // We grab a vector of the middle of the screen projected into scene-space
     QPoint midScene(ui->renderWidget->width()/2, ui->renderWidget->height()/2);
     QPointF projectedMidScene = ui->renderWidget->mapToScene(midScene);
     Vector2D midSceneVec(projectedMidScene.x(), projectedMidScene.y());
 
     CResource* resource = CResourceManager::getInstance()->get(item->text(1));
 
+    // We make the right entity based on its type
     if (resource->getProperty("type").toString() == "animated")
     {
         Globals::getCurrentScene()->createAnimatedGeometry(resource)->setPosition(midSceneVec);
