@@ -78,13 +78,22 @@ void CAnimatedGeometryEntity::_loadAnimations()
 //-----------------------------------------------------
 void CAnimatedGeometryEntity::playAnimation(const QString &name)
 {
+    if (!mAnimations.contains(name))
+    {
+        qDebug() << "No animation named '" << name << "'";
+        return;
+    }
+
     Animation anim = mAnimations[name];
+    mCurrentAnimation = name;
     mSprite->setAnimationFrames(anim.start_col, anim.start_line, anim.end_col, anim.end_line);
 }
 //-----------------------------------------------------
 QVariantMap CAnimatedGeometryEntity::getProperties()
 {
     QVariantMap map = CEntity::getProperties();
+
+    map.insert(PROP_KEY_ANIMATION_NAME, mCurrentAnimation);
 
     return map;
 }
@@ -93,7 +102,8 @@ bool CAnimatedGeometryEntity::setProperty(const QString &key, const QVariant &va
 {
     if (key == PROP_KEY_ANIMATION_NAME)
     {
-        playAnimation(value.toString());
+        QString valueStr = value.toString().trimmed();
+        playAnimation(valueStr);
         return true;
     }
 

@@ -86,6 +86,11 @@ void QGraphicsAnimatedSprite::setAnimationFrames(int start_col, int start_line, 
     mAnimationStartLine = start_line;
     mAnimationEndCol = end_col;
     mAnimationEndLine = end_line;
+
+    // Reset animation state to avoid to go out of range
+    mReverseFrame = false;
+    mCurrentColumn = mAnimationStartCol;
+    mCurrentLine = mAnimationStartLine;
 }
 //-----------------------------------------------------------
 void QGraphicsAnimatedSprite::setFrameReversion(bool reverse)

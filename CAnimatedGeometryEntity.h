@@ -67,6 +67,7 @@ protected:
     CResource* mResource;
     QGraphicsAnimatedSprite* mSprite;
     QMap<QString, Animation> mAnimations;
+    QString mCurrentAnimation;
 };
 
 #endif // CANIMATEDGEOMETRYENTITY_H
