@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QVariantMap>
+#include <cassert>
 
 #include "CScene.h"
 #include "CStaticGeometryEntity.h"
@@ -15,11 +16,13 @@
 #include "Maths.h"
 #include "CResourceManager.h"
 #include "CResource.h"
+#include "CEntity.h"
 
 //-----------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    mSelectedEntity(0)
 {
     ui->setupUi(this);
 
@@ -149,6 +152,7 @@ void MainWindow::onSelect_RenderItem(QGraphicsItem *item)
 
     // We retrieve the entity out of the
     CEntity* entity = Globals::getCurrentScene()->getEntityFromGraphicsView(item);
+    mSelectedEntity = entity;
 
     QVariantMap properties = entity->getProperties();
     QList<QString> keys = properties.keys();
@@ -166,11 +170,16 @@ void MainWindow::onSelect_RenderItem(QGraphicsItem *item)
         ui->tableProperties->setItem(i, 1, propValue);
         i++;
     }
+
+
 }
 //-----------------------------------------------------
 void MainWindow::onChange_Property(QTableWidgetItem *item)
 {
     QString propName = ui->tableProperties->item(item->row(), 0)->text();
 
+    assert(mSelectedEntity);
+
+    mSelectedEntity->setProperty(propName, item->text());
 }
 //-----------------------------------------------------

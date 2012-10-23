@@ -5,6 +5,8 @@
 #include <QTreeWidgetItem>
 
 class QGraphicsItem;
+class QTableWidgetItem;
+class CEntity;
 
 namespace Ui {
 class MainWindow;
@@ -29,6 +31,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    CEntity* mSelectedEntity;
 };
 
 #endif // MAINWINDOW_H
