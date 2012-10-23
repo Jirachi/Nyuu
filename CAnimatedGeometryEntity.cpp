@@ -13,7 +13,8 @@ CAnimatedGeometryEntity::CAnimatedGeometryEntity(long id, CResource* resource) :
 {
     QString filePath = Globals::getProjectPath() + "/" + resource->getProperty("file").toString();
     qDebug() << "File path: " << filePath;
-    mSprite = new QGraphicsAnimatedSprite(QImage(filePath));
+    QImage sprite = QImage(filePath);
+    mSprite = new QGraphicsAnimatedSprite(sprite);
 
     // Read resource file for settings
     QVariantMap rsrc_anim = mResource->getProperty("anim").toMap();
