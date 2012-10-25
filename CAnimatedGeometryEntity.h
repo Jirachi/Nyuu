@@ -28,7 +28,7 @@ protected:
 
 public:
     // Returns the resource used by this entity
-    CResource* getResource() const;
+    CResource* getResource() const { return mResource; }
 
     // Apply the entity to the current scene
     virtual void addToScene(QGraphicsScene* scene);
@@ -57,6 +57,9 @@ public:
 
     // Set entity Z depth index
     virtual void setZIndex(unsigned short layer);
+
+    // Copies this entity's properties to the target specified
+    virtual void copyPropertiesTo(CEntity* ent);
 
     ///////////////////////////////////
     // Properties key names

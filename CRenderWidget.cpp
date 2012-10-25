@@ -6,11 +6,12 @@
 #include <QMouseEvent>
 #include <QMessageBox>
 #include <QMenu>
+#include <QDebug>
 
 //---------------------------------------------------------------------------
 CRenderWidget::CRenderWidget(QWidget *parent) :
     QGraphicsView(parent), mIsLeftMouseDown(false),
-    mBackground(0)
+    mBackground(0), mIsCtrlKeyDown(false), mDoCopySelection(false)
 {
     Globals::setCurrentGraphicsScene(&mScene);
     setScene(&mScene);
@@ -57,25 +58,43 @@ void CRenderWidget::mousePressEvent(QMouseEvent *event)
         mMouseDownPosition = event->pos();
 
         QGraphicsItem* item = itemAt(event->pos());
-        if (mSelectionRects.contains(item))
-            return;
 
-        clearSelection();
-
-        if (!item || mBackground == item)
-            return;
-
-        QPen dashedPen;
-        dashedPen.setStyle(Qt::DashLine);
-
-        if (!mSelectedItems.contains(item))
+        // if we pressed control key, duplicate the selection
+        // if user drags mouse
+        if (mIsCtrlKeyDown)
         {
-            mSelectedItems.push_back(item);
-            mSelectionRects.push_back(mScene.addRect(item->pos().x(), item->pos().y(), item->boundingRect().width(), item->boundingRect().height(), dashedPen));
-
-            emit itemSelected(item);
+            qDebug() << "do copy";
+            mDoCopySelection = true;
         }
+
+        selectEntity(item);
     }
+}
+//---------------------------------------------------------------------------
+bool CRenderWidget::selectEntity(QGraphicsItem *item)
+{
+    if (mSelectionRects.contains(item))
+        return false;
+
+    clearSelection();
+
+    if (!item || mBackground == item)
+        return false;
+
+    QPen dashedPen;
+    dashedPen.setStyle(Qt::DashLine);
+
+    if (!mSelectedItems.contains(item))
+    {
+        mSelectedItems.push_back(item);
+        mSelectionRects.push_back(mScene.addRect(item->pos().x(), item->pos().y(), item->boundingRect().width(), item->boundingRect().height(), dashedPen));
+
+        emit itemSelected(item);
+
+        return true;
+    }
+
+    return false;
 }
 //---------------------------------------------------------------------------
 void CRenderWidget::mouseReleaseEvent(QMouseEvent *event)
@@ -101,6 +120,16 @@ void CRenderWidget::mouseMoveEvent(QMouseEvent *event)
 
         QPoint delta = event->pos() - mMouseDownPosition;
 
+        if (mDoCopySelection)
+        {
+            // Hep, stop right there! We want to duplicate the selection, and switch our current pick to the copied
+            // entity, and move it.
+            entity = Globals::getCurrentScene()->cloneEntity(entity);
+            selectEntity(entity->getSceneItem());
+
+            mDoCopySelection = false;
+        }
+
         // Move the entity
         entity->setPosition(entity->getPosition() + Vector2D(delta.x(), delta.y()));
         mMouseDownPosition = event->pos();
@@ -113,6 +142,24 @@ void CRenderWidget::mouseMoveEvent(QMouseEvent *event)
             QGraphicsItem* rect = (*it);
             rect->setPos(rect->pos() + delta);
         }
+    }
+}
+//---------------------------------------------------------------------------
+void CRenderWidget::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Control)
+    {
+        mIsCtrlKeyDown = true;
+        qDebug() << "ctrl down";
+    }
+}
+//---------------------------------------------------------------------------
+void CRenderWidget::keyReleaseEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Control)
+    {
+        mIsCtrlKeyDown = false;
+        qDebug() << "ctrl up";
     }
 }
 //---------------------------------------------------------------------------
@@ -139,6 +186,7 @@ void CRenderWidget::resizeEvent(QResizeEvent *event)
 {
     QGraphicsView::resizeEvent(event);
 
+    // If we have a background, make it fit the screen in height or width
     if (mBackground)
         mBackground->setScale(std::max<float>((float)height() / (float)mBackgroundImage.height(), (float)width() / (float)mBackgroundImage.width()));
 }

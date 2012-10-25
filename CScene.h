@@ -32,6 +32,9 @@ public:
     // Returns an entity whom QGraphicsItem representation is the specified pointer
     CEntity* getEntityFromGraphicsView(QGraphicsItem* element);
 
+    // Clone the specified entity and returns the copied one
+    CEntity* cloneEntity(CEntity* src);
+
     // Save the scene
     void save();
 

@@ -63,6 +63,8 @@ public:
     // Returns if the property has been successfully set
     virtual bool setProperty(const QString& key, const QVariant& value);
 
+    // Copies this entity's properties to the target specified
+    virtual void copyPropertiesTo(CEntity* ent);
 
     ///////////////////////////////////
     // Properties key names

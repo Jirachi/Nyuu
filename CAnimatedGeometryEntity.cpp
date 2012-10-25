@@ -118,3 +118,11 @@ void CAnimatedGeometryEntity::setZIndex(unsigned short layer)
     mSprite->setZValue(layer);
 }
 //-----------------------------------------------------
+void CAnimatedGeometryEntity::copyPropertiesTo(CEntity *ent)
+{
+    CEntity::copyPropertiesTo(ent);
+
+    CAnimatedGeometryEntity* ent_cast = static_cast<CAnimatedGeometryEntity*>(ent);
+    ent_cast->playAnimation(mCurrentAnimation);
+}
+//-----------------------------------------------------

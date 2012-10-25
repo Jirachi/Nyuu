@@ -3,6 +3,7 @@
 #include "CStaticGeometryEntity.h"
 #include "CAnimatedGeometryEntity.h"
 #include "Globals.h"
+#include <QMessageBox>
 
 //-----------------------------------------------------
 CScene::CScene() : mFreeEntityId(0)
@@ -50,6 +51,35 @@ CEntity* CScene::getEntityFromGraphicsView(QGraphicsItem *element)
         {
             return (*it);
         }
+    }
+
+    return 0;
+}
+//-----------------------------------------------------
+CEntity* CScene::cloneEntity(CEntity *src)
+{
+    switch (src->getType())
+    {
+    case ENTITY_TYPE_STATIC_GEOMETRY:
+    {
+        CStaticGeometryEntity* ent = static_cast<CStaticGeometryEntity*>(src);
+        CStaticGeometryEntity* clone = createStaticGeometry(ent->getResource());
+        ent->copyPropertiesTo(clone);
+        return clone;
+    }
+
+    case ENTITY_TYPE_ANIMATED_GEOMETRY:
+    {
+        CAnimatedGeometryEntity* ent = static_cast<CAnimatedGeometryEntity*>(src);
+        CAnimatedGeometryEntity* clone = createAnimatedGeometry(ent->getResource());
+        ent->copyPropertiesTo(clone);
+        return clone;
+    }
+
+
+    default:
+        QMessageBox::critical(0, "Erreur", "Clonage de ce type d'entité non supporté!!! CScene::cloneEntity");
+        break;
     }
 
     return 0;

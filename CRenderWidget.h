@@ -14,11 +14,17 @@ public:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
     void contextMenuEvent(QContextMenuEvent *event);
     void resizeEvent(QResizeEvent *event);
 
     // Remove all the selection rectangles
     void clearSelection();
+
+    // Try to select the specified entity
+    // Returns true if the entity really got selected
+    bool selectEntity(QGraphicsItem *item);
 
 signals:
     // Signal sent when an item is picked in the render view
@@ -41,8 +47,11 @@ protected:
     QList<QGraphicsItem*> mSelectedItems;
     QList<QGraphicsItem*> mSelectionRects;
 
+    bool mIsCtrlKeyDown;
     bool mIsLeftMouseDown;
     QPoint mMouseDownPosition;
+
+    bool mDoCopySelection;
     
 };
 

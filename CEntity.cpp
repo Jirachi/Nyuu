@@ -76,4 +76,12 @@ bool CEntity::setProperty(const QString &key, const QVariant &value)
     return false;
 }
 //-----------------------------------------------------
+void CEntity::copyPropertiesTo(CEntity *ent)
+{
+    ent->setAngle(mAngle);
+    ent->setPosition(mPosition);
+    ent->setReferenceName(mReferenceName);
+    ent->setZIndex(mZIndex);
+}
+//-----------------------------------------------------
 

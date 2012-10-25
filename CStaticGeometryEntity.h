@@ -19,7 +19,7 @@ protected:
 
 public:
     // Returns the resource used by this entity
-    CResource* getResource() const;
+    CResource* getResource() const { return mResource; }
 
     // Apply the entity to the current scene
     virtual void addToScene(QGraphicsScene* scene);
