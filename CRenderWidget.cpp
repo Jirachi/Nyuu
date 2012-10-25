@@ -9,7 +9,8 @@
 
 //---------------------------------------------------------------------------
 CRenderWidget::CRenderWidget(QWidget *parent) :
-    QGraphicsView(parent), mIsLeftMouseDown(false)
+    QGraphicsView(parent), mIsLeftMouseDown(false),
+    mBackground(0)
 {
     Globals::setCurrentGraphicsScene(&mScene);
     setScene(&mScene);
@@ -26,8 +27,17 @@ void CRenderWidget::notifySceneChanged()
 {
     mScene.clear();
 
+    if (mBackground)
+        mBackground = 0;
+
     if (Globals::getCurrentScene())
     {
+        // Make background
+        mBackgroundImage = QPixmap("D:\\Projets\\Jirachi\\test-rsrc\\backgrounds\\01.jpg");
+        mBackground = mScene.addPixmap(mBackgroundImage);
+        mBackground->setPos(0,0);
+        mBackground->setScale(std::max<float>((float)height() / (float)mBackgroundImage.height(), (float)width() / (float)mBackgroundImage.width()));
+
         // We rebuild the scene out of the new elements.
         CScene* scene = Globals::getCurrentScene();
 
@@ -52,7 +62,7 @@ void CRenderWidget::mousePressEvent(QMouseEvent *event)
 
         clearSelection();
 
-        if (!item)
+        if (!item || mBackground == item)
             return;
 
         QPen dashedPen;
@@ -123,5 +133,13 @@ void CRenderWidget::contextMenuEvent(QContextMenuEvent *event)
 {
     Q_UNUSED(event);
     //QMenu* ctxMenu = new QMenu(this);
+}
+//---------------------------------------------------------------------------
+void CRenderWidget::resizeEvent(QResizeEvent *event)
+{
+    QGraphicsView::resizeEvent(event);
+
+    if (mBackground)
+        mBackground->setScale(std::max<float>((float)height() / (float)mBackgroundImage.height(), (float)width() / (float)mBackgroundImage.width()));
 }
 //---------------------------------------------------------------------------

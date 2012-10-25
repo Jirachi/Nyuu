@@ -3,7 +3,7 @@
 
 #include <QGraphicsView>
 #include <QList>
-
+class QPixmap;
 class CRenderWidget : public QGraphicsView
 {
     Q_OBJECT
@@ -15,6 +15,7 @@ public:
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void contextMenuEvent(QContextMenuEvent *event);
+    void resizeEvent(QResizeEvent *event);
 
     // Remove all the selection rectangles
     void clearSelection();
@@ -35,6 +36,8 @@ public slots:
 protected:
     QGraphicsScene mScene;
 
+    QPixmap mBackgroundImage;
+    QGraphicsPixmapItem* mBackground;
     QList<QGraphicsItem*> mSelectedItems;
     QList<QGraphicsItem*> mSelectionRects;
 
