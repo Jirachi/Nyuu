@@ -1,11 +1,13 @@
 #include "CEntity.h"
 
 const QString CEntity::PROP_KEY_REF_NAME = "ref_name";
+const QString CEntity::PROP_KEY_Z_INDEX = "z_index";
 const QString CEntity::PROP_KEY_POSITION_X = "pos_x";
 const QString CEntity::PROP_KEY_POSITION_Y = "pos_y";
 
 //-----------------------------------------------------
-CEntity::CEntity(long id) : mEntityId(id), mAngle(0), mPosition(0,0)
+CEntity::CEntity(long id) : mEntityId(id), mAngle(0), mPosition(0,0),
+    mZIndex(0)
 {
 
 }
@@ -37,6 +39,7 @@ QVariantMap CEntity::getProperties()
 
     // General properties for all entities
     map.insert(PROP_KEY_REF_NAME, mReferenceName);
+    map.insert(PROP_KEY_Z_INDEX, mZIndex);
     map.insert(PROP_KEY_POSITION_X, mPosition.x);
     map.insert(PROP_KEY_POSITION_Y, mPosition.y);
 
@@ -63,7 +66,14 @@ bool CEntity::setProperty(const QString &key, const QVariant &value)
         return true;
     }
 
+    if (key == PROP_KEY_Z_INDEX)
+    {
+        setZIndex(value.toUInt());
+        return true;
+    }
+
 
     return false;
 }
 //-----------------------------------------------------
+

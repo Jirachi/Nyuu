@@ -55,6 +55,9 @@ public:
     // Returns if the property has been successfully set
     virtual bool setProperty(const QString& key, const QVariant& value);
 
+    // Set entity Z depth index
+    virtual void setZIndex(unsigned short layer);
+
     ///////////////////////////////////
     // Properties key names
     static const QString PROP_KEY_ANIMATION_NAME;

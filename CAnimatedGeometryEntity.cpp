@@ -111,3 +111,10 @@ bool CAnimatedGeometryEntity::setProperty(const QString &key, const QVariant &va
     return CEntity::setProperty(key,value);
 }
 //-----------------------------------------------------
+void CAnimatedGeometryEntity::setZIndex(unsigned short layer)
+{
+    CEntity::setZIndex(layer);
+
+    mSprite->setZValue(layer);
+}
+//-----------------------------------------------------

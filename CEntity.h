@@ -41,6 +41,12 @@ public:
     // Returns entity angle
     float getAngle() const { return mAngle; }
 
+    // Set entity Z depth index
+    virtual void setZIndex(unsigned short layer) { mZIndex = layer; }
+
+    // Returns entity Z depth index
+    unsigned short getZIndex() const { return mZIndex; }
+
     // Apply the entity to the current scene
     virtual void addToScene(QGraphicsScene* scene);
 
@@ -61,6 +67,7 @@ public:
     ///////////////////////////////////
     // Properties key names
     static const QString PROP_KEY_REF_NAME;
+    static const QString PROP_KEY_Z_INDEX;
     static const QString PROP_KEY_POSITION_X;
     static const QString PROP_KEY_POSITION_Y;
     ///////////////////////////////////
@@ -70,6 +77,7 @@ protected:
     Vector2D mPosition;
     float mAngle;
     QString mReferenceName;
+    unsigned short mZIndex;
 };
 
 #endif // CENTITY_H

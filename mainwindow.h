@@ -26,8 +26,10 @@ private slots:
     void onClick_SetProjectPath();
     void onDoubleClick_EntityTree(QTreeWidgetItem* item, int column);
     void onSelect_RenderItem(QGraphicsItem* item);
+    void onSelect_RenderItem(CEntity* item);
     void onClear_RenderSelection();
     void onChange_Property(QTableWidgetItem* item);
+    void onUpdate_Properties();
 
 private:
     Ui::MainWindow *ui;

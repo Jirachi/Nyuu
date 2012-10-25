@@ -52,3 +52,10 @@ QVariantMap CStaticGeometryEntity::getProperties()
     return map;
 }
 //-----------------------------------------------------
+void CStaticGeometryEntity::setZIndex(unsigned short layer)
+{
+    CEntity::setZIndex(layer);
+
+    mSceneItem->setZValue(layer);
+}
+//-----------------------------------------------------

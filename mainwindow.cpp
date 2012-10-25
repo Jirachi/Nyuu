@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->renderWidget, SIGNAL(itemSelected(QGraphicsItem*)), this, SLOT(onSelect_RenderItem(QGraphicsItem*)));
     connect(ui->renderWidget, SIGNAL(selectionCleared()), this, SLOT(onClear_RenderSelection()));
+    connect(ui->renderWidget, SIGNAL(itemChanged()), this, SLOT(onUpdate_Properties()));
 }
 //-----------------------------------------------------
 MainWindow::~MainWindow()
@@ -138,6 +139,12 @@ void MainWindow::onClear_RenderSelection()
 //-----------------------------------------------------
 void MainWindow::onSelect_RenderItem(QGraphicsItem *item)
 {
+    CEntity* entity = Globals::getCurrentScene()->getEntityFromGraphicsView(item);
+    onSelect_RenderItem(entity);
+}
+//-----------------------------------------------------
+void MainWindow::onSelect_RenderItem(CEntity *item)
+{
     if (!item)
     {
         onClear_RenderSelection();
@@ -150,11 +157,9 @@ void MainWindow::onSelect_RenderItem(QGraphicsItem *item)
     // Read properties and fill in the table
     ui->tableProperties->clearContents();
 
-    // We retrieve the entity out of the
-    CEntity* entity = Globals::getCurrentScene()->getEntityFromGraphicsView(item);
-    mSelectedEntity = entity;
+    mSelectedEntity = item;
 
-    QVariantMap properties = entity->getProperties();
+    QVariantMap properties = item->getProperties();
     QList<QString> keys = properties.keys();
     ui->tableProperties->setRowCount(keys.size());
 
@@ -170,8 +175,6 @@ void MainWindow::onSelect_RenderItem(QGraphicsItem *item)
         ui->tableProperties->setItem(i, 1, propValue);
         i++;
     }
-
-
 }
 //-----------------------------------------------------
 void MainWindow::onChange_Property(QTableWidgetItem *item)
@@ -180,6 +183,12 @@ void MainWindow::onChange_Property(QTableWidgetItem *item)
 
     assert(mSelectedEntity);
 
-    mSelectedEntity->setProperty(propName, item->text());
+    if (item->text() != propName)
+        mSelectedEntity->setProperty(propName, item->text());
+}
+//-----------------------------------------------------
+void MainWindow::onUpdate_Properties()
+{
+    onSelect_RenderItem(mSelectedEntity);
 }
 //-----------------------------------------------------

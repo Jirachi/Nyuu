@@ -26,6 +26,9 @@ signals:
     // Signal sent when selection is cleared
     void selectionCleared();
 
+    // Signal sent when a rendered element is changed by user action
+    void itemChanged();
+
 public slots:
     void notifySceneChanged();
 

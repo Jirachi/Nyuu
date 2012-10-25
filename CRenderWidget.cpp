@@ -95,6 +95,8 @@ void CRenderWidget::mouseMoveEvent(QMouseEvent *event)
         entity->setPosition(entity->getPosition() + Vector2D(delta.x(), delta.y()));
         mMouseDownPosition = event->pos();
 
+        emit itemChanged();
+
         // Move selection rects
         for (QList<QGraphicsItem*>::iterator it = mSelectionRects.begin(); it != mSelectionRects.end(); ++it)
         {
