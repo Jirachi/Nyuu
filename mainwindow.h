@@ -19,6 +19,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    // Set project path impl
+    void setProjectPath(const QString& directory);
     
 private slots:
     void onClick_APropos();

@@ -34,7 +34,7 @@ void CRenderWidget::notifySceneChanged()
     if (Globals::getCurrentScene())
     {
         // Make background
-        mBackgroundImage = QPixmap("D:\\Projets\\Jirachi\\test-rsrc\\backgrounds\\01.jpg");
+        mBackgroundImage = QPixmap("/Users/guigui/MIAGE/PIM/test-rsrc/backgrounds/01.jpg");
         mBackground = mScene.addPixmap(mBackgroundImage);
         mBackground->setPos(0,0);
         mBackground->setScale(std::max<float>((float)height() / (float)mBackgroundImage.height(), (float)width() / (float)mBackgroundImage.width()));
@@ -47,7 +47,7 @@ void CRenderWidget::notifySceneChanged()
     else
     {
         mScene.addText("Veuillez ouvrir ou créer un nouveau niveau.");
-    }
+    }//
 }
 //---------------------------------------------------------------------------
 void CRenderWidget::mousePressEvent(QMouseEvent *event)
@@ -63,7 +63,6 @@ void CRenderWidget::mousePressEvent(QMouseEvent *event)
         // if user drags mouse
         if (mIsCtrlKeyDown)
         {
-            qDebug() << "do copy";
             mDoCopySelection = true;
         }
 
@@ -150,7 +149,6 @@ void CRenderWidget::keyPressEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_Control)
     {
         mIsCtrlKeyDown = true;
-        qDebug() << "ctrl down";
     }
 }
 //---------------------------------------------------------------------------
@@ -159,7 +157,6 @@ void CRenderWidget::keyReleaseEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_Control)
     {
         mIsCtrlKeyDown = false;
-        qDebug() << "ctrl up";
     }
 }
 //---------------------------------------------------------------------------

@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QVariantMap>
+#include <QSettings>
 #include <cassert>
 
 #include "CScene.h"
@@ -30,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionA_propos, SIGNAL(triggered()), this, SLOT(onClick_APropos()));
     connect(ui->actionNouveau, SIGNAL(triggered()), this, SLOT(onClick_Nouveau()));
     connect(ui->actionD_finir_le_chemin_du_projet, SIGNAL(triggered()), this, SLOT(onClick_SetProjectPath()));
+    connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));
 
     connect(ui->tree_EntitiesAvailable, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(onDoubleClick_EntityTree(QTreeWidgetItem*,int)));
     connect(ui->tableProperties, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(onChange_Property(QTableWidgetItem*)));
@@ -37,6 +39,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->renderWidget, SIGNAL(itemSelected(QGraphicsItem*)), this, SLOT(onSelect_RenderItem(QGraphicsItem*)));
     connect(ui->renderWidget, SIGNAL(selectionCleared()), this, SLOT(onClear_RenderSelection()));
     connect(ui->renderWidget, SIGNAL(itemChanged()), this, SLOT(onUpdate_Properties()));
+
+    // Reload the project path (if any)
+    QSettings settings("Jirachi", "Nyuu");
+    setProjectPath(settings.value("editor/ProjectPath", ".").toString());
 }
 //-----------------------------------------------------
 MainWindow::~MainWindow()
@@ -69,11 +75,11 @@ void MainWindow::onClick_Nouveau()
 
 }
 //-----------------------------------------------------
-void MainWindow::onClick_SetProjectPath()
+void MainWindow::setProjectPath(const QString &directory)
 {
-    QString directory = QFileDialog::getExistingDirectory(this, "Répertoire projet...", ".");
-
     Globals::setProjectPath(directory);
+    QSettings settings("Jirachi", "Nyuu");
+    settings.setValue("editor/ProjectPath", directory);
 
     // Load resources in that directory and update side tree
     ui->tree_EntitiesAvailable->clear();
@@ -102,6 +108,12 @@ void MainWindow::onClick_SetProjectPath()
             ui->tree_EntitiesAvailable->addTopLevelItem(new QTreeWidgetItem(strs));
         }
     }
+}
+//-----------------------------------------------------
+void MainWindow::onClick_SetProjectPath()
+{
+    QString directory = QFileDialog::getExistingDirectory(this, "Répertoire projet...", ".");
+    setProjectPath(directory);
 }
 //-----------------------------------------------------
 void MainWindow::onDoubleClick_EntityTree(QTreeWidgetItem* item, int column)
