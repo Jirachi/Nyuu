@@ -66,6 +66,9 @@ public:
     // Copies this entity's properties to the target specified
     virtual void copyPropertiesTo(CEntity* ent);
 
+    // Return entity ID
+    long getEntityId() const { return mEntityId; }
+
     ///////////////////////////////////
     // Properties key names
     static const QString PROP_KEY_REF_NAME;

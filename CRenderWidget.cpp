@@ -130,7 +130,12 @@ void CRenderWidget::mouseMoveEvent(QMouseEvent *event)
         }
 
         // Move the entity
-        entity->setPosition(entity->getPosition() + Vector2D(delta.x(), delta.y()));
+        Vector2D finalPos = entity->getPosition() + Vector2D(delta.x(), delta.y());
+/*
+        finalPos.x = round(finalPos.x / 16.f) * 16.f;
+        finalPos.y = round(finalPos.y / 16.f) * 16.f;
+*/
+        entity->setPosition(finalPos);
         mMouseDownPosition = event->pos();
 
         emit itemChanged();

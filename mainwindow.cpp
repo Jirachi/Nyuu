@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Connect all actions from UI
     connect(ui->actionA_propos, SIGNAL(triggered()), this, SLOT(onClick_APropos()));
     connect(ui->actionNouveau, SIGNAL(triggered()), this, SLOT(onClick_Nouveau()));
+    connect(ui->actionSauvegarder, SIGNAL(triggered()), this, SLOT(onClick_Sauvegarder()));
     connect(ui->actionD_finir_le_chemin_du_projet, SIGNAL(triggered()), this, SLOT(onClick_SetProjectPath()));
     connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));
 
@@ -202,5 +203,13 @@ void MainWindow::onChange_Property(QTableWidgetItem *item)
 void MainWindow::onUpdate_Properties()
 {
     onSelect_RenderItem(mSelectedEntity);
+}
+//-----------------------------------------------------
+void MainWindow::onClick_Sauvegarder()
+{
+    if (Globals::getCurrentScene())
+    {
+        Globals::getCurrentScene()->save("./test.scn");
+    }
 }
 //-----------------------------------------------------

@@ -19,6 +19,9 @@ public:
     // Return all the properties
     QVariantMap& getProperties();
 
+    // Returns file path
+    QString getRelativeFilePath() const { return mFile; }
+
     // Read the values from the resource file
     void load();
 

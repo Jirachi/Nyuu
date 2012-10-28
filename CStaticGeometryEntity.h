@@ -39,8 +39,18 @@ public:
     // Returns the properties available for this entity
     virtual QVariantMap getProperties();
 
+    // Defines a property for this entity
+    // Returns if the property has been successfully set
+    virtual bool setProperty(const QString& key, const QVariant& value);
+
     // Set entity Z depth index
     virtual void setZIndex(unsigned short layer);
+
+    ///////////////////////////////
+    // PROPERTIES
+    static const QString PROP_KEY_RESOURCE;
+    ///////////////////////////////
+
 protected:
     CResource* mResource;
     QPixmap mTexturePixmap;

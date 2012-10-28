@@ -4,8 +4,10 @@
 #include "Globals.h"
 #include <QDebug>
 #include <QVariant>
+#include <QMessageBox>
 
 const QString CAnimatedGeometryEntity::PROP_KEY_ANIMATION_NAME = "anim_name";
+const QString CAnimatedGeometryEntity::PROP_KEY_RESOURCE = "resource";
 
 //----------------------------------------------------
 CAnimatedGeometryEntity::CAnimatedGeometryEntity(long id, CResource* resource) :
@@ -94,6 +96,7 @@ QVariantMap CAnimatedGeometryEntity::getProperties()
     QVariantMap map = CEntity::getProperties();
 
     map.insert(PROP_KEY_ANIMATION_NAME, mCurrentAnimation);
+    map.insert(PROP_KEY_RESOURCE, mResource->getRelativeFilePath());
 
     return map;
 }
@@ -104,6 +107,13 @@ bool CAnimatedGeometryEntity::setProperty(const QString &key, const QVariant &va
     {
         QString valueStr = value.toString().trimmed();
         playAnimation(valueStr);
+        return true;
+    }
+
+    if (key == PROP_KEY_RESOURCE)
+    {
+        //QString valueStr = value.toString().trimmed();
+        //QMessageBox::warning(0, "Bwah", "Flemme de faire cette option : read-only");
         return true;
     }
 

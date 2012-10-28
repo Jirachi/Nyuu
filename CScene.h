@@ -36,7 +36,7 @@ public:
     CEntity* cloneEntity(CEntity* src);
 
     // Save the scene
-    void save();
+    void save(const QString& filename);
 
 protected:
     QList<CEntity*> mEntities;

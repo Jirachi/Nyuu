@@ -4,6 +4,8 @@
 #include "Globals.h"
 #include <QDebug>
 
+const QString CStaticGeometryEntity::PROP_KEY_RESOURCE = "resource";
+
 //----------------------------------------------------
 CStaticGeometryEntity::CStaticGeometryEntity(long id, CResource* resource) :
     CEntity(id), mResource(resource), mSceneItem(0)
@@ -49,7 +51,14 @@ QVariantMap CStaticGeometryEntity::getProperties()
 {
     QVariantMap map = CEntity::getProperties();
 
+    map.insert(PROP_KEY_RESOURCE, mResource->getRelativeFilePath());
+
     return map;
+}
+//-----------------------------------------------------
+bool CStaticGeometryEntity::setProperty(const QString &key, const QVariant &value)
+{
+    return CEntity::setProperty(key,value);
 }
 //-----------------------------------------------------
 void CStaticGeometryEntity::setZIndex(unsigned short layer)

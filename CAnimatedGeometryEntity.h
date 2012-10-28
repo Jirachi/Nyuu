@@ -64,6 +64,7 @@ public:
     ///////////////////////////////////
     // Properties key names
     static const QString PROP_KEY_ANIMATION_NAME;
+    static const QString PROP_KEY_RESOURCE;
     ///////////////////////////////////
 
 protected:

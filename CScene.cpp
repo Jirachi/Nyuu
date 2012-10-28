@@ -4,6 +4,8 @@
 #include "CAnimatedGeometryEntity.h"
 #include "Globals.h"
 #include <QMessageBox>
+#include <QFile>
+#include "QJson/serializer.h"
 
 //-----------------------------------------------------
 CScene::CScene() : mFreeEntityId(0)
@@ -83,5 +85,34 @@ CEntity* CScene::cloneEntity(CEntity *src)
     }
 
     return 0;
+}
+//-----------------------------------------------------
+void CScene::save(const QString &filename)
+{
+    // Serialize the scene
+    QVariantMap output;
+
+    // Serialize scene settings
+    // TODO: Background, name, etc
+    output.insert("settings", QVariantMap());
+
+    // Serialize scene elements
+    QVariantMap entities;
+    for (QList<CEntity*>::iterator it = mEntities.begin(); it != mEntities.end(); ++it)
+    {
+        CEntity* ent = (*it);
+        entities.insert(QString::number(ent->getEntityId()), ent->getProperties());
+    }
+
+    output.insert("entities", entities);
+
+
+    QJson::Serializer serializer;
+    QByteArray json = serializer.serialize(output);
+
+    QFile file(filename);
+    file.open(QIODevice::WriteOnly);
+    QDataStream out(&file);   // we will serialize the data into the file
+    out << json;  // serialize a string
 }
 //-----------------------------------------------------
