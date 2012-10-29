@@ -56,13 +56,13 @@ bool CEntity::setProperty(const QString &key, const QVariant &value)
 
     if (key == PROP_KEY_POSITION_X)
     {
-        mPosition.x = value.toInt();
+        setPosition(Vector2D(value.toInt(), mPosition.y));
         return true;
     }
 
     if (key == PROP_KEY_POSITION_Y)
     {
-        mPosition.y = value.toInt();
+        setPosition(Vector2D(mPosition.x, value.toInt()));
         return true;
     }
 

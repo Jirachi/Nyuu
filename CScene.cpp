@@ -2,10 +2,13 @@
 #include "CEntity.h"
 #include "CStaticGeometryEntity.h"
 #include "CAnimatedGeometryEntity.h"
+#include "CResourceManager.h"
 #include "Globals.h"
 #include <QMessageBox>
 #include <QFile>
+#include <QDebug>
 #include "QJson/serializer.h"
+#include "QJson/parser.h"
 
 //-----------------------------------------------------
 CScene::CScene() : mFreeEntityId(0)
@@ -17,9 +20,11 @@ CScene::~CScene()
 
 }
 //-----------------------------------------------------
-CStaticGeometryEntity* CScene::createStaticGeometry(CResource* resource)
+CStaticGeometryEntity* CScene::createStaticGeometry(CResource* resource, int entityId)
 {
-    CStaticGeometryEntity* entity = new CStaticGeometryEntity(++mFreeEntityId, resource);
+    int finalId = (entityId == -1 ? ++mFreeEntityId : entityId);
+
+    CStaticGeometryEntity* entity = new CStaticGeometryEntity(finalId, resource);
     entity->addToScene(Globals::getCurrentGraphicsScene());
 
     mEntities.push_back(entity);
@@ -27,9 +32,11 @@ CStaticGeometryEntity* CScene::createStaticGeometry(CResource* resource)
     return entity;
 }
 //-----------------------------------------------------
-CAnimatedGeometryEntity* CScene::createAnimatedGeometry(CResource* resource)
+CAnimatedGeometryEntity* CScene::createAnimatedGeometry(CResource* resource, int entityId)
 {
-    CAnimatedGeometryEntity* entity = new CAnimatedGeometryEntity(++mFreeEntityId, resource);
+    int finalId = (entityId == -1 ? ++mFreeEntityId : entityId);
+
+    CAnimatedGeometryEntity* entity = new CAnimatedGeometryEntity(finalId, resource);
     entity->addToScene(Globals::getCurrentGraphicsScene());
 
     mEntities.push_back(entity);
@@ -101,7 +108,10 @@ void CScene::save(const QString &filename)
     for (QList<CEntity*>::iterator it = mEntities.begin(); it != mEntities.end(); ++it)
     {
         CEntity* ent = (*it);
-        entities.insert(QString::number(ent->getEntityId()), ent->getProperties());
+        QVariantMap props;
+        props.insert("properties", ent->getProperties());
+        props.insert("type", ent->getType());
+        entities.insert(QString::number(ent->getEntityId()), props);
     }
 
     output.insert("entities", entities);
@@ -110,9 +120,101 @@ void CScene::save(const QString &filename)
     QJson::Serializer serializer;
     QByteArray json = serializer.serialize(output);
 
+    // Write data
     QFile file(filename);
     file.open(QIODevice::WriteOnly);
-    QDataStream out(&file);   // we will serialize the data into the file
-    out << json;  // serialize a string
+    QDataStream out(&file);
+    out << json;  // serialize as string
+}
+//-----------------------------------------------------
+void CScene::load(const QString &filename)
+{
+    // Read the scene status
+    // Read raw scene file
+    qDebug() << "Starting loading scene " << filename;
+    QFile file(filename);
+    QString jsonData;
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QTextStream in(&file);
+        while (!in.atEnd())
+        {
+            //!!!! WARNING HAAAAAX
+            // Somehow, I get \0 as the very first character of the saved scene file,
+            // meaning that the whole JSON data is cut at the first character (which is pretty
+            // embarrassing!) - so I'm manually overriding this here. I'll take a closer look
+            // at this another time.
+            QString line = in.readLine().trimmed().replace('\0', ' ');
+            qDebug() << "not at end: " + line;
+            jsonData.append(line);
+        }
+    }
+    else
+    {
+        QMessageBox::critical(0, "Erreur", "Erreur lors de l'ouverture du fichier!");
+        return;
+    }
+
+    // Parse all teh JSONz!
+    QJson::Parser parser;
+    bool ok;
+
+    QVariantMap result = parser.parse (jsonData.toAscii(), &ok).toMap();
+    if (!ok)
+    {
+        QMessageBox::critical(0, "Erreur" ,"Erreur lors du décodage: " + parser.errorString() + " at line " + QString::number(parser.errorLine()));
+        return;
+    }
+
+    qDebug() << "JSON data parsed.";
+    qDebug() << result;
+    // Read JSON data
+    // TODO: Background, name, etc... (see save())
+
+    // De-serialize scene elements
+    QVariantMap entities = result["entities"].toMap();
+    for (QVariantMap::iterator it = entities.begin(); it != entities.end(); ++it)
+    {
+        int entityId = it.key().toInt();
+        QVariantMap entityValue = it.value().toMap();
+
+        qDebug() << "Restoring entityId " << entityId;
+
+        // Read the types and the properties
+        EntityType entityType = (EntityType)entityValue["type"].toInt();
+        QVariantMap entityProps = entityValue["properties"].toMap();
+
+        CEntity* entity = 0;
+
+        // Create the right entity based on the type stored
+        switch (entityType)
+        {
+        case ENTITY_TYPE_STATIC_GEOMETRY:
+            entity = createStaticGeometry(CResourceManager::getInstance()->get(entityProps[CStaticGeometryEntity::PROP_KEY_RESOURCE].toString()), entityId);
+            break;
+
+        case ENTITY_TYPE_ANIMATED_GEOMETRY:
+            entity = createAnimatedGeometry(CResourceManager::getInstance()->get(entityProps[CAnimatedGeometryEntity::PROP_KEY_RESOURCE].toString()), entityId);
+            break;
+
+        default:
+            QMessageBox::critical(0, "Erreur!", "Type d'entité non supportée: " + QString::number(entityType));
+            continue;
+            break; // weirdness ahead!
+        }
+
+        // Re-apply all properties
+        for (QVariantMap::iterator propsIt = entityProps.begin(); propsIt != entityProps.end(); ++propsIt)
+        {
+            QString propKey = propsIt.key();
+            QVariant propValue = propsIt.value();
+
+            //qDebug() << " ==> Restoring property " << propKey << " to value " << propValue;
+
+            entity->setProperty(propKey, propValue);
+        }
+
+        // Cave Johnson, we're done here.
+    }
 }
 //-----------------------------------------------------

@@ -10,8 +10,8 @@
 
 //---------------------------------------------------------------------------
 CRenderWidget::CRenderWidget(QWidget *parent) :
-    QGraphicsView(parent), mIsLeftMouseDown(false),
-    mBackground(0), mIsCtrlKeyDown(false), mDoCopySelection(false)
+    QGraphicsView(parent),
+    mBackground(0), mIsCtrlKeyDown(false), mIsLeftMouseDown(false), mDoCopySelection(false)
 {
     Globals::setCurrentGraphicsScene(&mScene);
     setScene(&mScene);

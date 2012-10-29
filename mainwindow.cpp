@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionA_propos, SIGNAL(triggered()), this, SLOT(onClick_APropos()));
     connect(ui->actionNouveau, SIGNAL(triggered()), this, SLOT(onClick_Nouveau()));
     connect(ui->actionSauvegarder, SIGNAL(triggered()), this, SLOT(onClick_Sauvegarder()));
+    connect(ui->actionOuvrir, SIGNAL(triggered()), this, SLOT(onClick_Ouvrir()));
     connect(ui->actionD_finir_le_chemin_du_projet, SIGNAL(triggered()), this, SLOT(onClick_SetProjectPath()));
     connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));
 
@@ -211,10 +212,26 @@ void MainWindow::onClick_Sauvegarder()
     {
         if (mCurrentScenePath == "")
         {
-            mCurrentScenePath = QFileDialog::getSaveFileName(this, "Fichier final", ".");
+            mCurrentScenePath = QFileDialog::getSaveFileName(this, "Fichier final", ".", "*.scn");
         }
 
         Globals::getCurrentScene()->save(mCurrentScenePath);
+    }
+}
+//-----------------------------------------------------
+void MainWindow::onClick_Ouvrir()
+{
+    QString path = QFileDialog::getOpenFileName(this, "Fichier scène", ".", "*.scn");
+
+    if (path != "")
+    {
+        CScene* scene = new CScene();
+        Globals::setCurrentScene(scene);
+        ui->renderWidget->notifySceneChanged();
+
+        scene->load(path);
+
+        ui->dock_Toolset->setEnabled(true);
     }
 }
 //-----------------------------------------------------

@@ -13,6 +13,9 @@ Globals::Globals()
 //-----------------------------------------------------
 void Globals::setCurrentScene(CScene *scene)
 {
+    if (mCurrentScene)
+        delete mCurrentScene;
+
     mCurrentScene = scene;
 }
 //-----------------------------------------------------

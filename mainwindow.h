@@ -26,6 +26,7 @@ public:
 private slots:
     void onClick_APropos();
     void onClick_Nouveau();
+    void onClick_Ouvrir();
     void onClick_Sauvegarder();
     void onClick_SetProjectPath();
     void onDoubleClick_EntityTree(QTreeWidgetItem* item, int column);
