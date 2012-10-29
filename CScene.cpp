@@ -145,7 +145,6 @@ void CScene::load(const QString &filename)
             // embarrassing!) - so I'm manually overriding this here. I'll take a closer look
             // at this another time.
             QString line = in.readLine().trimmed().replace('\0', ' ');
-            qDebug() << "not at end: " + line;
             jsonData.append(line);
         }
     }
@@ -166,8 +165,6 @@ void CScene::load(const QString &filename)
         return;
     }
 
-    qDebug() << "JSON data parsed.";
-    qDebug() << result;
     // Read JSON data
     // TODO: Background, name, etc... (see save())
 
@@ -177,8 +174,6 @@ void CScene::load(const QString &filename)
     {
         int entityId = it.key().toInt();
         QVariantMap entityValue = it.value().toMap();
-
-        qDebug() << "Restoring entityId " << entityId;
 
         // Read the types and the properties
         EntityType entityType = (EntityType)entityValue["type"].toInt();
@@ -208,8 +203,6 @@ void CScene::load(const QString &filename)
         {
             QString propKey = propsIt.key();
             QVariant propValue = propsIt.value();
-
-            //qDebug() << " ==> Restoring property " << propKey << " to value " << propValue;
 
             entity->setProperty(propKey, propValue);
         }
