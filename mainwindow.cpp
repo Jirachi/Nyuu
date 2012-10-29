@@ -23,7 +23,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    mSelectedEntity(0)
+    mSelectedEntity(0), mCurrentScenePath("")
 {
     ui->setupUi(this);
 
@@ -209,7 +209,12 @@ void MainWindow::onClick_Sauvegarder()
 {
     if (Globals::getCurrentScene())
     {
-        Globals::getCurrentScene()->save("./test.scn");
+        if (mCurrentScenePath == "")
+        {
+            mCurrentScenePath = QFileDialog::getSaveFileName(this, "Fichier final", ".");
+        }
+
+        Globals::getCurrentScene()->save(mCurrentScenePath);
     }
 }
 //-----------------------------------------------------

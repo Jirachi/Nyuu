@@ -38,6 +38,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     CEntity* mSelectedEntity;
+    QString mCurrentScenePath;
 };
 
 #endif // MAINWINDOW_H
