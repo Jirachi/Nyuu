@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "aboutdialog.h"
+#include "levelsettingsdialog.h"
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <QDir>
@@ -34,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionOuvrir, SIGNAL(triggered()), this, SLOT(onClick_Ouvrir()));
     connect(ui->actionD_finir_le_chemin_du_projet, SIGNAL(triggered()), this, SLOT(onClick_SetProjectPath()));
     connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));
+    connect(ui->actionConfiguration_du_niveau, SIGNAL(triggered()), this, SLOT(onClick_ConfigNiveau()));
 
     connect(ui->tree_EntitiesAvailable, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(onDoubleClick_EntityTree(QTreeWidgetItem*,int)));
     connect(ui->tableProperties, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(onChange_Property(QTableWidgetItem*)));
@@ -233,5 +235,22 @@ void MainWindow::onClick_Ouvrir()
 
         ui->dock_Toolset->setEnabled(true);
     }
+}
+//-----------------------------------------------------
+void MainWindow::onClick_ConfigNiveau()
+{
+    if (!Globals::getCurrentScene())
+    {
+        QMessageBox::critical(this, "Impossible !", "Veuillez ouvrir un niveau.");
+        return;
+    }
+
+    static LevelSettingsDialog* dlg = 0;
+    if (!dlg)
+    {
+        dlg = new LevelSettingsDialog(this);
+    }
+
+    dlg->show();
 }
 //-----------------------------------------------------

@@ -35,6 +35,7 @@ private slots:
     void onClear_RenderSelection();
     void onChange_Property(QTableWidgetItem* item);
     void onUpdate_Properties();
+    void onClick_ConfigNiveau();
 
 private:
     Ui::MainWindow *ui;

@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     QJson/json_parser.cc \
     CResource.cpp \
     CResourceManager.cpp \
-    CAnimatedGeometryEntity.cpp
+    CAnimatedGeometryEntity.cpp \
+    levelsettingsdialog.cpp
 
 HEADERS  += mainwindow.h \
     CRenderWidget.h \
@@ -55,10 +56,12 @@ HEADERS  += mainwindow.h \
     QJson/json_scanner.h \
     QJson/json_parser.hh \
     CResource.h \
-    CResourceManager.h
+    CResourceManager.h \
+    levelsettingsdialog.h
 
 FORMS    += mainwindow.ui \
-    aboutdialog.ui
+    aboutdialog.ui \
+    levelsettingsdialog.ui
 
 RESOURCES += \
     Resources.qrc
