@@ -11,7 +11,7 @@
 //---------------------------------------------------------------------------
 CRenderWidget::CRenderWidget(QWidget *parent) :
     QGraphicsView(parent),
-    mBackground(0), mIsCtrlKeyDown(false), mIsLeftMouseDown(false), mDoCopySelection(false)
+    mIsCtrlKeyDown(false), mIsLeftMouseDown(false), mDoCopySelection(false)
 {
     Globals::setCurrentGraphicsScene(&mScene);
     setScene(&mScene);
@@ -28,16 +28,10 @@ void CRenderWidget::notifySceneChanged()
 {
     mScene.clear();
 
-    if (mBackground)
-        mBackground = 0;
-
     if (Globals::getCurrentScene())
     {
         // Make background
-        mBackgroundImage = QPixmap("/Users/guigui/MIAGE/PIM/test-rsrc/backgrounds/01.jpg");
-        mBackground = mScene.addPixmap(mBackgroundImage);
-        mBackground->setPos(0,0);
-        mBackground->setScale(std::max<float>((float)height() / (float)mBackgroundImage.height(), (float)width() / (float)mBackgroundImage.width()));
+        this->setBackgroundBrush(QBrush(QPixmap(Globals::getProjectPath() + "/backgrounds/01.jpg")));
 
         // We rebuild the scene out of the new elements.
         CScene* scene = Globals::getCurrentScene();
@@ -72,13 +66,19 @@ void CRenderWidget::mousePressEvent(QMouseEvent *event)
 //---------------------------------------------------------------------------
 bool CRenderWidget::selectEntity(QGraphicsItem *item)
 {
+    qDebug() << __FUNCTION__;
+
     if (mSelectionRects.contains(item))
+    {
         return false;
+    }
 
     clearSelection();
 
-    if (!item || mBackground == item)
+    if (!item)
+    {
         return false;
+    }
 
     QPen dashedPen;
     dashedPen.setStyle(Qt::DashLine);
@@ -187,9 +187,5 @@ void CRenderWidget::contextMenuEvent(QContextMenuEvent *event)
 void CRenderWidget::resizeEvent(QResizeEvent *event)
 {
     QGraphicsView::resizeEvent(event);
-
-    // If we have a background, make it fit the screen in height or width
-    if (mBackground)
-        mBackground->setScale(std::max<float>((float)height() / (float)mBackgroundImage.height(), (float)width() / (float)mBackgroundImage.width()));
 }
 //---------------------------------------------------------------------------

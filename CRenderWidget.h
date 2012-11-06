@@ -42,8 +42,6 @@ public slots:
 protected:
     QGraphicsScene mScene;
 
-    QPixmap mBackgroundImage;
-    QGraphicsPixmapItem* mBackground;
     QList<QGraphicsItem*> mSelectedItems;
     QList<QGraphicsItem*> mSelectionRects;
 
