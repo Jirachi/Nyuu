@@ -35,6 +35,9 @@ public:
     // Clone the specified entity and returns the copied one
     CEntity* cloneEntity(CEntity* src);
 
+    // Delete the provided entity
+    void remove(CEntity* ent);
+
     // Save the scene
     void save(const QString& filename);
 

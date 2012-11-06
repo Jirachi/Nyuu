@@ -211,3 +211,9 @@ void CScene::load(const QString &filename)
     }
 }
 //-----------------------------------------------------
+void CScene::remove(CEntity *ent)
+{
+    delete ent;
+    mEntities.removeAll(ent);
+}
+//-----------------------------------------------------

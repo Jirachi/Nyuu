@@ -16,6 +16,8 @@ enum EntityType
 class CEntity
 {
 protected:
+    friend class CScene;
+
     // ctor
     CEntity(long id);
 

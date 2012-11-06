@@ -151,9 +151,22 @@ void CRenderWidget::mouseMoveEvent(QMouseEvent *event)
 //---------------------------------------------------------------------------
 void CRenderWidget::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_Control)
+    switch (event->key())
     {
+    case Qt::Key_Control:
         mIsCtrlKeyDown = true;
+        break;
+
+    case Qt::Key_Delete:
+        if (mSelectedItems.size() > 0)
+        {
+            // Delete selected item
+            CEntity* entity = Globals::getCurrentScene()->getEntityFromGraphicsView(mSelectedItems.first());
+            Globals::getCurrentScene()->remove(entity);
+
+            clearSelection();
+        }
+        break;
     }
 }
 //---------------------------------------------------------------------------

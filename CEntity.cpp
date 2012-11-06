@@ -7,7 +7,7 @@ const QString CEntity::PROP_KEY_POSITION_Y = "pos_y";
 
 //-----------------------------------------------------
 CEntity::CEntity(long id) : mEntityId(id), mAngle(0), mPosition(0,0),
-    mZIndex(0)
+    mZIndex(70)
 {
 
 }
