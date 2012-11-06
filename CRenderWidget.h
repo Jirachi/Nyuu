@@ -3,6 +3,8 @@
 
 #include <QGraphicsView>
 #include <QList>
+#include "Maths.h"
+
 class QPixmap;
 class CRenderWidget : public QGraphicsView
 {
@@ -48,6 +50,7 @@ protected:
     bool mIsCtrlKeyDown;
     bool mIsLeftMouseDown;
     QPoint mMouseDownPosition;
+    Vector2D mOriginalPosition;
 
     bool mDoCopySelection;
     

@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QMenu>
 #include <QDebug>
+#include <math.h>
 
 //---------------------------------------------------------------------------
 CRenderWidget::CRenderWidget(QWidget *parent) :
@@ -66,8 +67,6 @@ void CRenderWidget::mousePressEvent(QMouseEvent *event)
 //---------------------------------------------------------------------------
 bool CRenderWidget::selectEntity(QGraphicsItem *item)
 {
-    qDebug() << __FUNCTION__;
-
     if (mSelectionRects.contains(item))
     {
         return false;
@@ -89,6 +88,14 @@ bool CRenderWidget::selectEntity(QGraphicsItem *item)
         mSelectionRects.push_back(mScene.addRect(item->pos().x(), item->pos().y(), item->boundingRect().width(), item->boundingRect().height(), dashedPen));
 
         emit itemSelected(item);
+
+        CEntity* entity = Globals::getCurrentScene()->getEntityFromGraphicsView(mSelectedItems.first());
+
+        if (entity)
+        {
+            mOriginalPosition = entity->getPosition();
+        }
+
 
         return true;
     }
@@ -130,13 +137,10 @@ void CRenderWidget::mouseMoveEvent(QMouseEvent *event)
         }
 
         // Move the entity
-        Vector2D finalPos = entity->getPosition() + Vector2D(delta.x(), delta.y());
-/*
-        finalPos.x = round(finalPos.x / 16.f) * 16.f;
-        finalPos.y = round(finalPos.y / 16.f) * 16.f;
-*/
+        QPoint gridDelta = QPoint(ceil(delta.x() / 16.f) * 16.f, ceil(delta.y() / 16.f) * 16.f);
+        Vector2D finalPos = mOriginalPosition + Vector2D(gridDelta.x(), gridDelta.y());
+
         entity->setPosition(finalPos);
-        mMouseDownPosition = event->pos();
 
         emit itemChanged();
 
@@ -144,7 +148,7 @@ void CRenderWidget::mouseMoveEvent(QMouseEvent *event)
         for (QList<QGraphicsItem*>::iterator it = mSelectionRects.begin(); it != mSelectionRects.end(); ++it)
         {
             QGraphicsItem* rect = (*it);
-            rect->setPos(rect->pos() + delta);
+            rect->setPos(gridDelta);
         }
     }
 }
