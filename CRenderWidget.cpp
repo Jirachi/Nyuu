@@ -137,7 +137,7 @@ void CRenderWidget::mouseMoveEvent(QMouseEvent *event)
         }
 
         // Move the entity
-        QPoint gridDelta = QPoint(ceil(delta.x() / 16.f) * 16.f, ceil(delta.y() / 16.f) * 16.f);
+        QPoint gridDelta = delta;//QPoint(ceil(delta.x() / 16.f) * 16.f, ceil(delta.y() / 16.f) * 16.f);
         Vector2D finalPos = mOriginalPosition + Vector2D(gridDelta.x(), gridDelta.y());
 
         entity->setPosition(finalPos);

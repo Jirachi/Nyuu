@@ -24,6 +24,9 @@ CStaticGeometryEntity* CScene::createStaticGeometry(CResource* resource, int ent
 {
     int finalId = (entityId == -1 ? ++mFreeEntityId : entityId);
 
+    if (entityId != -1 && entityId > mFreeEntityId)
+        mFreeEntityId = entityId+1;
+
     CStaticGeometryEntity* entity = new CStaticGeometryEntity(finalId, resource);
     entity->addToScene(Globals::getCurrentGraphicsScene());
 
@@ -35,6 +38,9 @@ CStaticGeometryEntity* CScene::createStaticGeometry(CResource* resource, int ent
 CAnimatedGeometryEntity* CScene::createAnimatedGeometry(CResource* resource, int entityId)
 {
     int finalId = (entityId == -1 ? ++mFreeEntityId : entityId);
+
+    if (entityId != -1 && entityId > mFreeEntityId)
+        mFreeEntityId = entityId+1;
 
     CAnimatedGeometryEntity* entity = new CAnimatedGeometryEntity(finalId, resource);
     entity->addToScene(Globals::getCurrentGraphicsScene());
@@ -114,6 +120,7 @@ void CScene::save(const QString &filename)
         entities.insert(QString::number(ent->getEntityId()), props);
     }
 
+
     output.insert("entities", entities);
 
 
@@ -122,9 +129,11 @@ void CScene::save(const QString &filename)
 
     // Write data
     QFile file(filename);
-    file.open(QIODevice::WriteOnly);
+    file.open(QIODevice::WriteOnly | QIODevice::Text);
     QDataStream out(&file);
     out << json;  // serialize as string
+    file.flush();
+    file.close();
 }
 //-----------------------------------------------------
 void CScene::load(const QString &filename)
@@ -144,7 +153,7 @@ void CScene::load(const QString &filename)
             // meaning that the whole JSON data is cut at the first character (which is pretty
             // embarrassing!) - so I'm manually overriding this here. I'll take a closer look
             // at this another time.
-            QString line = in.readLine().trimmed().replace('\0', ' ');
+            QString line = in.readLine().trimmed(); //.replace('\0', ' ');
             jsonData.append(line);
         }
     }
